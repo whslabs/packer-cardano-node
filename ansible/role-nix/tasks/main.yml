@@ -1,0 +1,25 @@
+---
+# tasks file for role-nix
+- name: Create nix temporary directory
+  tempfile:
+    state: directory
+    suffix: nix
+  register: nix_tmpdir
+- name: Download nix
+  unarchive:
+    src: https://releases.nixos.org/nix/nix-{{ nix_version }}/nix-{{ nix_version }}-x86_64-linux.tar.xz
+    dest: "{{ nix_tmpdir.path }}"
+    remote_src: yes
+- name: Install nix
+  shell: sh {{ nix_tmpdir.path }}/nix-{{ nix_version }}-x86_64-linux/install --no-daemon
+- name: Remove nix temporary directory
+  file:
+    path: "{{ nix_tmpdir.path }}"
+    state: absent
+  when: nix_tmpdir.path is defined
+- name: Enable flakes
+  ansible.builtin.lineinfile:
+    path: /etc/nix/nix.conf
+    line: experimental-features = nix-command flakes
+    create: yes
+  become: yes

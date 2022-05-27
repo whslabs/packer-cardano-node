@@ -1,0 +1,3 @@
+---
+# vars file for role-cardano-node
+cardano_node_version: 1.34.1

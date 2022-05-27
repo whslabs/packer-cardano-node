@@ -1,0 +1,21 @@
+---
+# tasks file for role-cardano-node
+- name: Enable iohk binary cache
+  blockinfile:
+    path: /etc/nix/nix.conf
+    block: |
+      substituters = https://cache.nixos.org https://hydra.iohk.io
+      trusted-public-keys = iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+  become: yes
+- name: Set cardano node directory
+  set_fact:
+    cardano_node_dir: "{{ ansible_env.HOME }}/cardano-node"
+- name: Download cardano node
+  git:
+    repo: https://github.com/input-output-hk/cardano-node.git
+    dest: "{{ cardano_node_dir }}"
+    version: "{{ cardano_node_version }}"
+- name: Build cardano node
+  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#mainnet/node -o mainnet-node-local"
+  args:
+    chdir: "{{ cardano_node_dir }}"
