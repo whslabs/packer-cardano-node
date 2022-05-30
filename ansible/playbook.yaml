@@ -3,3 +3,4 @@
 
   roles:
     - role: role-cardano-node
+    - role: role-cardano-db-sync

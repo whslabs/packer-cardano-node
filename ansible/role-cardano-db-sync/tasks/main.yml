@@ -1,0 +1,14 @@
+---
+# tasks file for role-cardano-db-sync
+- name: Set cardano db sync directory
+  set_fact:
+    cardano_db_sync_dir: "{{ ansible_env.HOME }}/cardano-db-sync"
+- name: Download cardano db sync
+  git:
+    repo: https://github.com/input-output-hk/cardano-db-sync.git
+    dest: "{{ cardano_db_sync_dir }}"
+    version: "{{ cardano_db_sync_version }}"
+- name: Build cardano db sync
+  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#cardano-db-sync -o db-sync-node"
+  args:
+    chdir: "{{ cardano_db_sync_dir }}"
