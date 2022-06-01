@@ -1,0 +1,11 @@
+[Unit]
+Description=Cardano node
+
+[Service]
+ExecStart=/home/ubuntu/cardano-node/mainnet-node-local/bin/cardano-node-mainnet
+WorkingDirectory=/home/ubuntu/cardano-node
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=multi-user.target

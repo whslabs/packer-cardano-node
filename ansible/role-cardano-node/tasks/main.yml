@@ -12,3 +12,13 @@
   shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#mainnet/node -o mainnet-node-local"
   args:
     chdir: "{{ cardano_node_dir }}"
+- name: Create cardano node service
+  copy:
+    src: cardano-node.service
+    dest: /etc/systemd/system/
+  become: yes
+- name: Enable cardano node service
+  systemd:
+    name: cardano-node
+    enabled: yes
+  become: yes
