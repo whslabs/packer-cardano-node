@@ -1,0 +1,6 @@
+---
+# tasks file for role-postgresql
+- name: Install postgresql
+  apt:
+    name: postgresql
+  become: yes
