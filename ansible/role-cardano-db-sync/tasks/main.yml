@@ -19,3 +19,13 @@
   shell: PGPASSFILE=config/pgpass-mainnet scripts/postgresql-setup.sh --createdb
   args:
     chdir: "{{ cardano_db_sync_dir }}"
+- name: Create cardano db sync service
+  copy:
+    src: cardano-db-sync.service
+    dest: /etc/systemd/system/
+  become: yes
+- name: Enable cardano db sync service
+  systemd:
+    name: cardano-db-sync
+    enabled: yes
+  become: yes

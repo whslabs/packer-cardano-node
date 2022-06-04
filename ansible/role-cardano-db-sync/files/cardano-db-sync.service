@@ -1,0 +1,18 @@
+[Unit]
+Description=Cardano db sync
+
+[Service]
+Environment=PGPASSFILE=config/pgpass-mainnet
+ExecStart=/home/ubuntu/cardano-db-sync/db-sync-node/bin/cardano-db-sync \
+  --config config/mainnet-config.yaml \
+  --schema-dir schema/ \
+  --socket-path ../cardano-node/state-node-mainnet/node.socket \
+  --state-dir ledger-state/mainnet/ \
+  ;
+
+WorkingDirectory=/home/ubuntu/cardano-db-sync
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=multi-user.target
