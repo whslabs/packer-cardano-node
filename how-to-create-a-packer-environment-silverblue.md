@@ -68,7 +68,7 @@ cat <<EOF > install_packer.yaml
     name: Install packer
     unarchive:
       creates: /usr/local/bin/packer
-      dest: /usr/local/bin
+      dest: /usr/local/bin/
       remote_src: "yes"
       src: |-
         https://releases.hashicorp.com/packer/{{ version }}/packer_{{ version }}_linux_amd64.zip
