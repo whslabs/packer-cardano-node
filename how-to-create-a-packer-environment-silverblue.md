@@ -46,14 +46,8 @@ virt-install \
 # Install pip (Debian 11)
 ```sh
 sudo apt-get install -y python3-distutils
-```
-
-```sh
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
-```
-
-```sh
 echo 'export PATH=$PATH:$HOME/.local/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
