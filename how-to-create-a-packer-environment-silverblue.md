@@ -43,6 +43,16 @@ virt-install \
 )
 ```
 
+# Install cguv (Debian 11)
+```sh
+sudo apt-get install -y \
+  curl \
+  git \
+  unzip \
+  vim \
+  ;
+```
+
 # Install pip (Debian 11)
 ```sh
 sudo apt-get install -y python3-distutils
