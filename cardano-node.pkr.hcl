@@ -1,5 +1,6 @@
 packer {
   required_plugins {
+    # https://github.com/hashicorp/packer-plugin-amazon
     amazon = {
       version = ">= 1.1.0"
       source  = "github.com/hashicorp/amazon"
@@ -23,6 +24,7 @@ locals {
 }
 
 source "amazon-ebs" "cardano-node" {
+  ami_groups    = ["all"]
   ami_name      = "whslabs-cardano-node-${local.hk_year_month_day}"
   communicator  = "ssh"
   instance_type = "t2.large"
