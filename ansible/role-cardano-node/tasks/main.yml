@@ -31,3 +31,7 @@
     name: cardano-node
     enabled: yes
   become: yes
+- name: Build cardano cli
+  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#cardano-cli -o cardano-cli-build"
+  args:
+    chdir: "{{ cardano_node_dir }}"
