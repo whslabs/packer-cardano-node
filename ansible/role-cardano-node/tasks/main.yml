@@ -3,17 +3,20 @@
 - name: Set cardano node directory
   set_fact:
     cardano_node_dir: "{{ ansible_env.HOME }}/cardano-node"
+- name: Set nix build
+  set_fact:
+    nix_build: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build"
 - name: Download cardano node
   git:
     repo: https://github.com/input-output-hk/cardano-node.git
     dest: "{{ cardano_node_dir }}"
     version: "{{ cardano_node_version }}"
 - name: Build cardano node
-  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#mainnet/node -o mainnet-node-local"
+  shell: "{{ nix_build }} .#mainnet/node -o mainnet-node-local"
   args:
     chdir: "{{ cardano_node_dir }}"
 - name: Build cardano node testnet
-  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#testnet/node -o testnet-node-local"
+  shell: "{{ nix_build }} .#testnet/node -o testnet-node-local"
   args:
     chdir: "{{ cardano_node_dir }}"
 - name: Create cardano node service
@@ -32,6 +35,6 @@
     enabled: yes
   become: yes
 - name: Build cardano cli
-  shell: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build .#cardano-cli -o cardano-cli-build"
+  shell: "{{ nix_build }} .#cardano-cli -o cardano-cli-build"
   args:
     chdir: "{{ cardano_node_dir }}"
