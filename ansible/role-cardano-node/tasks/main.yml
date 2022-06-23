@@ -3,9 +3,6 @@
 - name: Set cardano node directory
   set_fact:
     cardano_node_dir: "{{ ansible_env.HOME }}/cardano-node"
-- name: Set nix build
-  set_fact:
-    nix_build: "{{ ansible_env.HOME }}/.nix-profile/bin/nix build"
 - name: Download cardano node
   git:
     repo: https://github.com/input-output-hk/cardano-node.git
