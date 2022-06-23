@@ -24,13 +24,15 @@ locals {
 }
 
 source "amazon-ebs" "cardano-node" {
-  ami_groups    = ["all"]
-  ami_name      = "whslabs-cardano-node-${local.hk_year_month_day}"
-  communicator  = "ssh"
-  instance_type = "t2.large"
-  region        = "us-east-1"
-  source_ami    = data.amazon-ami.ubuntu.id
-  ssh_username  = "ubuntu"
+  ami_groups            = ["all"]
+  ami_name              = "whslabs-cardano-node-${local.hk_year_month_day}"
+  communicator          = "ssh"
+  force_delete_snapshot = true
+  force_deregister      = true
+  instance_type         = "t2.large"
+  region                = "us-east-1"
+  source_ami            = data.amazon-ami.ubuntu.id
+  ssh_username          = "ubuntu"
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
     volume_size           = 20
