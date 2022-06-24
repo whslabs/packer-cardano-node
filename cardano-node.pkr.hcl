@@ -33,6 +33,10 @@ source "amazon-ebs" "cardano-node" {
   region                = "us-east-1"
   source_ami            = data.amazon-ami.ubuntu.id
   ssh_username          = "ubuntu"
+  aws_polling {
+    delay_seconds = 60
+    max_attempts  = 60
+  }
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
     volume_size           = 20
