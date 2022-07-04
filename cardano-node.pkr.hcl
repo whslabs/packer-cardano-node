@@ -50,5 +50,6 @@ build {
 
   provisioner "ansible" {
     playbook_file = "ansible/playbook.yaml"
+    user          = "ubuntu"
   }
 }
