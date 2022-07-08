@@ -85,3 +85,22 @@ cat <<EOF > install_packer.yaml
 EOF
 ansible-playbook -ilocalhost, -clocal -eversion=1.8.2 install_packer.yaml -K
 ```
+
+# Install vagrant
+https://www.vagrantup.com/downloads
+```sh
+cat <<EOF > install_vagrant.yaml
+- name: Installer
+  hosts: all
+  tasks:
+  - become: "yes"
+    name: Install vagrant
+    unarchive:
+      creates: /usr/local/bin/vagrant
+      dest: /usr/local/bin/
+      remote_src: "yes"
+      src: |-
+        https://releases.hashicorp.com/vagrant/{{ version }}/vagrant_{{ version }}_linux_amd64.zip
+EOF
+ansible-playbook -ilocalhost, -clocal -eversion=2.2.19 install_vagrant.yaml -K
+```
