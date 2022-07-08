@@ -83,5 +83,5 @@ cat <<EOF > install_packer.yaml
       src: |-
         https://releases.hashicorp.com/packer/{{ version }}/packer_{{ version }}_linux_amd64.zip
 EOF
-ansible-playbook -ilocalhost, -clocal -eversion=1.8.1 install_packer.yaml -K
+ansible-playbook -ilocalhost, -clocal -eversion=1.8.2 install_packer.yaml -K
 ```
