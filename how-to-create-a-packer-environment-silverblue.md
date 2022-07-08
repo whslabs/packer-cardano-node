@@ -104,3 +104,16 @@ cat <<EOF > install_vagrant.yaml
 EOF
 ansible-playbook -ilocalhost, -clocal -eversion=2.2.19 install_vagrant.yaml -K
 ```
+
+# Install vagrant-libvirt (Silverblue)
+```sh
+rpm-ostree install \
+  libvirt-devel \
+  libxml2-devel \
+  ruby-devel \
+  ;
+```
+
+```sh
+vagrant plugin install vagrant-libvirt
+```
