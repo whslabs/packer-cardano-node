@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: packer-cardano-node-pipelinerun
+spec:
+  pipelineSpec:
+    tasks:
+    - name: git-clone
+      params:
+      - name: url
+        value: https://github.com/whslabs/packer-cardano-node.git
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: output
+    - name: nix
+      runAfter: [git-clone]
+      taskSpec:
+        steps:
+        - name: build
+          image: nixos/nix:2.9.2@sha256:5a6c4e49573b92f9b13352ffda473e4dca76b7be180b53311222fc51d2a109a0
+          script: |
+            #!/usr/bin/env sh
+            cd $(workspaces.input.path)
+            ./build.sh
+        workspaces:
+        - name: aws
+          mountPath: /root/.aws/
+        - name: input
+      workspaces:
+      - name: aws
+        workspace: aws
+      - name: input
+        workspace: output
+    workspaces:
+    - name: aws
+    - name: output
+  workspaces:
+  - name: output
+    volumeClaimTemplate:
+      spec:
+        resources:
+          requests:
+            storage: 1Gi
+        accessModes:
+        - ReadWriteOnce
+  - name: aws
+    secret:
+      secretName: aws
