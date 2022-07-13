@@ -1,0 +1,5 @@
+- name: Create nix
+  hosts: default
+
+  roles:
+    - role: role-nix
