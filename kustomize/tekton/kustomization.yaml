@@ -4,17 +4,16 @@ resources:
 - pipelinerun.yaml
 configurations:
 - kustomizeconfig.yaml
+images:
+- name: nix
+  digest: sha256:5a6c4e49573b92f9b13352ffda473e4dca76b7be180b53311222fc51d2a109a0
+  newName: nixos/nix
+  newTag: 2.9.2
+- name: python
+  digest: sha256:607635763e54907fd75397fedfeb83890e62a0f9b54a1d99d27d748c5d269be4
+  newTag: 3.10.5-bullseye
 secretGenerator:
 - name: aws
   files:
   - credentials=secret/awsCredentials.txt
   - config=secret/awsConfig.txt
-
-images:
-- name: nix
-  newName: nixos/nix
-  newTag: 2.9.2
-  digest: sha256:5a6c4e49573b92f9b13352ffda473e4dca76b7be180b53311222fc51d2a109a0
-- name: python
-  newTag: 3.10.5-bullseye
-  digest: sha256:607635763e54907fd75397fedfeb83890e62a0f9b54a1d99d27d748c5d269be4

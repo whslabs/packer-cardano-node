@@ -3,7 +3,12 @@ kind: PipelineRun
 metadata:
   name: packer-cardano-node-pipelinerun
 spec:
+  params:
+  - name: bazelisk-version
+    value: 1.12.0
   pipelineSpec:
+    params:
+    - name: bazelisk-version
     tasks:
     - name: git-clone-packer
       params:
@@ -13,8 +18,8 @@ spec:
         name: git-clone
       workspaces:
       - name: output
-        workspace: outputs
         subpath: output-packer
+        workspace: outputs
     - name: git-clone-boto3
       params:
       - name: url
@@ -23,8 +28,8 @@ spec:
         name: git-clone
       workspaces:
       - name: output
-        workspace: outputs
         subpath: output-boto3
+        workspace: outputs
     - name: build-packer
       runAfter: [git-clone-packer]
       taskSpec:
@@ -43,22 +48,28 @@ spec:
       - name: aws
         workspace: aws
       - name: input
-        workspace: outputs
         subpath: output-packer
+        workspace: outputs
     - name: build-boto3
+      params:
+      - name: bazelisk-version
+        value: $(params.bazelisk-version)
       runAfter:
       - build-packer
       - git-clone-boto3
       taskSpec:
+        params:
+        - name: bazelisk-version
         steps:
         - name: build
           image: python
           script: |
             #!/usr/bin/env sh
+            set -x
             curl \
               -L \
               -O \
-              https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazelisk-linux-amd64
+              https://github.com/bazelbuild/bazelisk/releases/download/v$(params.bazelisk-version)/bazelisk-linux-amd64
             install bazelisk-linux-amd64 /usr/local/bin/bazelisk
             cd $(workspaces.input.path)
             bazelisk run //:boto3_delete_old_amis_bin
@@ -70,8 +81,8 @@ spec:
       - name: aws
         workspace: aws
       - name: input
-        workspace: outputs
         subpath: output-boto3
+        workspace: outputs
     workspaces:
     - name: aws
     - name: outputs
