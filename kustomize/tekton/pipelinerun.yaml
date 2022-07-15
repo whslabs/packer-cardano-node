@@ -5,7 +5,7 @@ metadata:
 spec:
   pipelineSpec:
     tasks:
-    - name: git-clone
+    - name: git-clone-packer
       params:
       - name: url
         value: https://github.com/whslabs/packer-cardano-node.git
@@ -13,9 +13,20 @@ spec:
         name: git-clone
       workspaces:
       - name: output
-        workspace: output
-    - name: nix
-      runAfter: [git-clone]
+        workspace: outputs
+        subpath: output-packer
+    - name: git-clone-boto3
+      params:
+      - name: url
+        value: https://github.com/whslabs/boto3_delete_old_amis.git
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: outputs
+        subpath: output-boto3
+    - name: build-packer
+      runAfter: [git-clone-packer]
       taskSpec:
         steps:
         - name: build
@@ -32,12 +43,40 @@ spec:
       - name: aws
         workspace: aws
       - name: input
-        workspace: output
+        workspace: outputs
+        subpath: output-packer
+    - name: build-boto3
+      runAfter:
+      - build-packer
+      - git-clone-boto3
+      taskSpec:
+        steps:
+        - name: build
+          image: python:3.10.5-bullseye@sha256:607635763e54907fd75397fedfeb83890e62a0f9b54a1d99d27d748c5d269be4
+          script: |
+            #!/usr/bin/env sh
+            curl \
+              -L \
+              -O \
+              https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazelisk-linux-amd64
+            install bazelisk-linux-amd64 /usr/local/bin/bazelisk
+            cd $(workspaces.input.path)
+            bazelisk run //:boto3_delete_old_amis_bin
+        workspaces:
+        - name: aws
+          mountPath: /root/.aws/
+        - name: input
+      workspaces:
+      - name: aws
+        workspace: aws
+      - name: input
+        workspace: outputs
+        subpath: output-boto3
     workspaces:
     - name: aws
-    - name: output
+    - name: outputs
   workspaces:
-  - name: output
+  - name: outputs
     volumeClaimTemplate:
       spec:
         resources:
