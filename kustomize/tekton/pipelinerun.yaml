@@ -30,7 +30,7 @@ spec:
       taskSpec:
         steps:
         - name: build
-          image: nixos/nix:2.9.2@sha256:5a6c4e49573b92f9b13352ffda473e4dca76b7be180b53311222fc51d2a109a0
+          image: nix
           script: |
             #!/usr/bin/env sh
             cd $(workspaces.input.path)
@@ -52,7 +52,7 @@ spec:
       taskSpec:
         steps:
         - name: build
-          image: python:3.10.5-bullseye@sha256:607635763e54907fd75397fedfeb83890e62a0f9b54a1d99d27d748c5d269be4
+          image: python
           script: |
             #!/usr/bin/env sh
             curl \

@@ -2,3 +2,7 @@ nameReference:
 - kind: Secret
   fieldSpecs:
   - path: spec/workspaces/secret/secretName
+
+images:
+- kind: PipelineRun
+  path: spec/pipelineSpec/tasks/taskSpec/steps/image
