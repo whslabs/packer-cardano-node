@@ -6,9 +6,9 @@ configurations:
 - kustomizeconfig.yaml
 images:
 - name: nix
-  digest: sha256:5a6c4e49573b92f9b13352ffda473e4dca76b7be180b53311222fc51d2a109a0
+  digest: sha256:1ec5b4a6bee82fc5bb93f782d08fc58029715dde166139c7164c39fa5db75d23
   newName: nixos/nix
-  newTag: 2.9.2
+  newTag: 2.10.3
 - name: python
   digest: sha256:607635763e54907fd75397fedfeb83890e62a0f9b54a1d99d27d748c5d269be4
   newTag: 3.10.5-bullseye
