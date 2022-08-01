@@ -3,8 +3,14 @@
 
 set -ex
 
-f=cardano-node.pkr.hcl
+t=$(mktemp --suffix=.pkr.hcl)
 
-packer init -upgrade $f
+cp cardano-node.pkr.hcl $t
 
-packer build $f
+sed -i 's/\(use_proxy\)/#\1/' $t
+
+packer init -upgrade $t
+
+packer build $t
+
+rm $t
