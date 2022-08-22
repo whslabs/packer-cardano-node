@@ -9,11 +9,11 @@
     dest: "{{ cardano_node_dir }}"
     version: "{{ cardano_node_version }}"
 - name: Build cardano node
-  shell: "{{ nix_build }} .#mainnet/node -o mainnet-node-local"
+  shell: "{{ shell_only_nix_build }} .#mainnet/node -o mainnet-node-local"
   args:
     chdir: "{{ cardano_node_dir }}"
 - name: Build cardano node testnet
-  shell: "{{ nix_build }} .#testnet/node -o testnet-node-local"
+  shell: "{{ shell_only_nix_build }} .#testnet/node -o testnet-node-local"
   args:
     chdir: "{{ cardano_node_dir }}"
 - name: Create cardano node service
@@ -32,6 +32,6 @@
     enabled: yes
   become: yes
 - name: Build cardano cli
-  shell: "{{ nix_build }} .#cardano-cli -o cardano-cli-build"
+  shell: "{{ shell_only_nix_build }} .#cardano-cli -o cardano-cli-build"
   args:
     chdir: "{{ cardano_node_dir }}"
