@@ -17,14 +17,14 @@
   args:
     chdir: "{{ cardano_node_dir }}"
 - name: Create cardano node service
-  copy:
-    src: cardano-node.service
-    dest: /etc/systemd/system/
+  ansible.builtin.template:
+    src: cardano-node.service.j2
+    dest: /etc/systemd/system/cardano-node.service
   become: yes
 - name: Create cardano node testnet service
-  copy:
-    src: cardano-node-testnet.service
-    dest: /etc/systemd/system/
+  ansible.builtin.template:
+    src: cardano-node-testnet.service.j2
+    dest: /etc/systemd/system/cardano-node-testnet.service
   become: yes
 - name: Enable cardano node service
   systemd:

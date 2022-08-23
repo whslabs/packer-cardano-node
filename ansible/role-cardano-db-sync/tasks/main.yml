@@ -12,17 +12,17 @@
   shell: "{{ shell_only_nix_build }} .#cardano-db-sync -o db-sync-node"
   args:
     chdir: "{{ cardano_db_sync_dir }}"
-- name: Create postgresql user ubuntu
-  shell: sudo -upostgres createuser --createdb ubuntu
+- name: Create postgresql user
+  shell: sudo -upostgres createuser --createdb {{ ansible_env.USER }}
   become: yes
 - name: Setup cardano db sync
   shell: PGPASSFILE=config/pgpass-mainnet scripts/postgresql-setup.sh --createdb
   args:
     chdir: "{{ cardano_db_sync_dir }}"
 - name: Create cardano db sync service
-  copy:
-    src: cardano-db-sync.service
-    dest: /etc/systemd/system/
+  ansible.builtin.template:
+    src: cardano-db-sync.service.j2
+    dest: /etc/systemd/system/cardano-db-sync.service
   become: yes
 - name: Enable cardano db sync service
   systemd:

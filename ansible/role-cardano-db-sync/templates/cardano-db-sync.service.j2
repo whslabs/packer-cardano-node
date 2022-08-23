@@ -3,16 +3,16 @@ Description=Cardano db sync
 
 [Service]
 Environment=PGPASSFILE=config/pgpass-mainnet
-ExecStart=/home/ubuntu/cardano-db-sync/db-sync-node/bin/cardano-db-sync \
+ExecStart={{ ansible_env.HOME }}/cardano-db-sync/db-sync-node/bin/cardano-db-sync \
   --config config/mainnet-config.yaml \
   --schema-dir schema/ \
   --socket-path ../cardano-node/state-node-mainnet/node.socket \
   --state-dir ledger-state/mainnet/ \
   ;
 
-WorkingDirectory=/home/ubuntu/cardano-db-sync
-User=ubuntu
-Group=ubuntu
+WorkingDirectory={{ ansible_env.HOME }}/cardano-db-sync
+User={{ ansible_env.USER }}
+Group={{ ansible_env.USER }}
 
 [Install]
 WantedBy=multi-user.target

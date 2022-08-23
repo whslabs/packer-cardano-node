@@ -1,0 +1,11 @@
+[Unit]
+Description=Cardano node testnet
+
+[Service]
+ExecStart={{ ansible_env.HOME }}/cardano-node/testnet-node-local/bin/cardano-node-testnet
+WorkingDirectory={{ ansible_env.HOME }}/cardano-node
+User={{ ansible_env.USER }}
+Group={{ ansible_env.USER }}
+
+[Install]
+WantedBy=multi-user.target
