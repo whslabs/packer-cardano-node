@@ -1,5 +1,6 @@
 [Unit]
 Description=Cardano db sync
+After=postgresql.service
 
 [Service]
 Environment=PGPASSFILE=config/pgpass-mainnet
