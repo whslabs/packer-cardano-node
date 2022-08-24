@@ -1,3 +1,3 @@
 ---
 # vars file for role-cardano-db-sync
-cardano_db_sync_version: 12.0.2
+cardano_db_sync_version: 13.0.4
