@@ -6,3 +6,12 @@
     update_cache: yes
   become: yes
   when: ansible_os_family == "Debian"
+- name: Install postgresql
+  ansible.builtin.include_tasks: al2.yml
+  when: ansible_distribution == "Amazon"
+- name: Start postgresql
+  ansible.builtin.systemd:
+    enabled: yes
+    name: postgresql
+    state: started
+  become: yes

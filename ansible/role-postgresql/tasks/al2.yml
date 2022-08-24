@@ -1,0 +1,10 @@
+- name: Enable postgresql 14
+  ansible.builtin.command: amazon-linux-extras enable postgresql14
+  become: yes
+- name: Install postgresql
+  ansible.builtin.yum:
+    name: postgresql-server
+  become: yes
+- name: Setup postgresql
+  ansible.builtin.command: postgresql-setup initdb
+  become: yes
